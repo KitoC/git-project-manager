@@ -21,6 +21,7 @@
   "homepage": "https://github.com/KitoC/git-project-manager#readme",
   "dependencies": {
     "concurrently": "^5.1.0",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "prompts": "^2.3.1"
   }
 }

@@ -3,7 +3,6 @@ const consoleMessage = require("./console-message");
 const getConfigFile = require("./getConfigFile");
 const createCommands = require("./create-commands");
 const writeGitIgnore = require("./write-git-ignore");
-const gpmINIT = require("./gpm-init");
 
 const projectTypes = {
   frontend: "frontend",
@@ -33,6 +32,5 @@ module.exports = {
   consoleMessage,
   getConfigFile,
   createCommands,
-  writeGitIgnore,
-  gpmINIT
+  writeGitIgnore
 };

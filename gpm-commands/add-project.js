@@ -3,8 +3,8 @@ const { writeGitIgnore } = require("../utils");
 module.exports = () => {
   const { consoleMessage, writeToConfigFile } = require("../utils");
 
-  const gitUrl = process.argv[4];
-  const targetPath = process.argv[5];
+  const gitUrl = process.argv[3];
+  const targetPath = process.argv[4];
 
   const gitRepoName = gitUrl
     .split("/")
@@ -19,7 +19,8 @@ module.exports = () => {
 
     gpmConfig.projects[gitRepoName] = {
       gitUrl,
-      path: `${targetPath ? `${targetPath}/` : ""}${gitRepoName}`
+      path: `${targetPath ? `${targetPath}/` : ""}${gitRepoName}`,
+      enabled: true
     };
 
     writeGitIgnore(gpmConfig);

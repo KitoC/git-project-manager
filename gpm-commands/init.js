@@ -1,6 +1,6 @@
 const fs = require("fs");
 const prettier = require("prettier");
-const consoleMessage = require("./console-message");
+const consoleMessage = require("../utils/console-message");
 
 const gpmINIT = () => {
   const ROOT = process.cwd();

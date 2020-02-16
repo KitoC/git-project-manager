@@ -8,17 +8,15 @@ if (fs.existsSync(`${process.cwd()}/scripts/index.js`)) {
 }
 
 const { getConfigFile, gpmINIT } = require("./utils");
-const projectCommands = require("./project");
+const gpmCommands = require("./gpm-commands");
 
 const firstArg = process.argv[2];
 const secondArg = process.argv[3];
 
 const { createCommands } = require("./utils");
 
-if (firstArg === "init") {
-  gpmINIT();
-} else if (firstArg === "project") {
-  projectCommands[secondArg]();
+if (gpmCommands[firstArg]) {
+  gpmCommands[firstArg]();
 } else {
   const { projects } = getConfigFile().config;
   const projectArray = [];
