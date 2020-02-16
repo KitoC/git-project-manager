@@ -1,4 +1,4 @@
 TODO
 
-- make init also perform git init on dir.
-- give option to clone straight away when adding a new project.
+- add cli -h --help hints.
+- add convert command for converting existing directories into GPM directories

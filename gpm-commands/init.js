@@ -1,7 +1,7 @@
 const fs = require("fs");
 const prettier = require("prettier");
 const consoleMessage = require("../utils/console-message");
-
+const shell = require("shelljs");
 const gpmINIT = () => {
   const ROOT = process.cwd();
   const SCRIPTS_DIR = `${ROOT}/scripts`;
@@ -16,21 +16,29 @@ const gpmINIT = () => {
 
   fs.writeFileSync(
     SCRIPTS_INDEX,
-    prettier.format(`
+    prettier.format(
+      `
       // Your custom scripts can go here.
       module.exports = {};
-  `)
+  `,
+      { parser: "babel" }
+    )
   );
 
   fs.writeFileSync(
     GPM_CONFIG,
-    prettier.format(`
+    prettier.format(
+      `
       module.exports = {
         projects: {},
         colors: {}
       };
-  `)
+  `,
+      { parser: "babel" }
+    )
   );
+
+  shell.exec("git init");
 };
 
 module.exports = gpmINIT;

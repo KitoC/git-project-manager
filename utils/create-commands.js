@@ -38,6 +38,7 @@ const createCommands = (callback, projectArray = []) => {
         "Any CLI commands must be returned from your custom script function as a string. Whatever is executed in your custom script will still be run however."
       );
     }
+
     const prefixColor = colors[path] || "white";
 
     return { command: command || " ", name: projectName, prefixColor };

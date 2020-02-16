@@ -12,12 +12,16 @@ const writeToConfigFile = cb => {
   if (isJson) {
     fs.writeFileSync(
       GPM_CONFIG_JSON,
-      prettier.format(`module.exports = ${JSON.stringify(rewrittenConfig)}`)
+      prettier.format(`module.exports = ${JSON.stringify(rewrittenConfig)}`, {
+        parser: "babel"
+      })
     );
   } else {
     fs.writeFileSync(
       GPM_CONFIG_JS,
-      prettier.format(`module.exports = ${JSON.stringify(rewrittenConfig)}`)
+      prettier.format(`module.exports = ${JSON.stringify(rewrittenConfig)}`, {
+        parser: "babel"
+      })
     );
   }
 };

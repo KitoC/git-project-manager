@@ -15,7 +15,13 @@ const secondArg = process.argv[3];
 
 const { createCommands } = require("./utils");
 
-if (gpmCommands[firstArg]) {
+if (process.argv.includes("-h") || process.argv.includes("--help")) {
+  console.log(`where <command> is one of:
+  add, init, clone, remove
+
+gpm <command> -h  quick help on <command>
+`);
+} else if (gpmCommands[firstArg]) {
   gpmCommands[firstArg]();
 } else {
   const { projects } = getConfigFile().config;
