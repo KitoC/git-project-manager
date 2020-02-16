@@ -1,0 +1,26 @@
+{
+  "name": "git-project-manager",
+  "version": "1.0.0",
+  "description": "A CLI tool for managing multiple git projects in one parent repo.",
+  "main": "index.js",
+  "bin": {
+    "gpm": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitoC/git-project-manager.git"
+  },
+  "author": "KitoC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KitoC/git-project-manager/issues"
+  },
+  "homepage": "https://github.com/KitoC/git-project-manager#readme",
+  "dependencies": {
+    "concurrently": "^5.1.0",
+    "prettier": "^1.19.1"
+  }
+}
