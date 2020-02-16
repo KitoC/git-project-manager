@@ -13,9 +13,10 @@ module.exports = async () => {
       type: "multiselect",
       name: "projects_to_clone",
       message: "Pick the projects you want to enable and clone.",
-      choices: Object.keys(projects).map(projectName => ({
+      choices: Object.entries(projects).map(([projectName, { enabled }]) => ({
         title: projectName,
-        value: projectName
+        value: projectName,
+        selected: enabled
       }))
     }
   ]);
