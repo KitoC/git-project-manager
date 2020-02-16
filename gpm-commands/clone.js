@@ -32,7 +32,7 @@ module.exports = async () => {
     return gpmConfig;
   });
 
-  createCommands(({ path, gitUrl, projectName }) => {
+  createCommands(({ path, gitUrl }) => {
     return `git clone ${gitUrl} ${path}`;
   });
 };

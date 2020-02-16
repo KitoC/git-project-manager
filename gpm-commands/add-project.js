@@ -1,10 +1,21 @@
 const { writeGitIgnore } = require("../utils");
 
 module.exports = () => {
-  const { consoleMessage, writeToConfigFile } = require("../utils");
+  const {
+    consoleMessage,
+    writeToConfigFile,
+    createCommands
+  } = require("../utils");
+  const cloneImmediately = process.argv.find(arg => arg === "--clone");
 
-  const gitUrl = process.argv[3];
-  const targetPath = process.argv[4];
+  const [first, second, ...args] = process.argv.filter(arg => {
+    if (arg.includes("--clone")) return false;
+
+    return true;
+  });
+
+  const gitUrl = args[1];
+  const targetPath = args[2];
 
   const gitRepoName = gitUrl
     .split("/")
@@ -27,4 +38,13 @@ module.exports = () => {
 
     return gpmConfig;
   });
+
+  if (cloneImmediately) {
+    createCommands(
+      ({ path, gitUrl }) => {
+        return `git clone ${gitUrl} ${path}`;
+      },
+      [gitRepoName]
+    );
+  }
 };

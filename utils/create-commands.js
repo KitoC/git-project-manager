@@ -55,7 +55,7 @@ const createCommands = (callback, projectArray = []) => {
     restartTries: 0
   }).then(
     () => {
-      consoleMessage.success("_____SUCCESS______");
+      consoleMessage.success("all commands run successfully.");
     },
     () => {
       consoleMessage.error(
