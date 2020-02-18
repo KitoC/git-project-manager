@@ -3,6 +3,7 @@ const consoleMessage = require("./console-message");
 const getConfigFile = require("./getConfigFile");
 const createCommands = require("./create-commands");
 const writeGitIgnore = require("./write-git-ignore");
+const projectsMultiSelectPrompt = require("./projects-multi-select");
 
 const projectTypes = {
   frontend: "frontend",
@@ -32,5 +33,6 @@ module.exports = {
   consoleMessage,
   getConfigFile,
   createCommands,
-  writeGitIgnore
+  writeGitIgnore,
+  projectsMultiSelectPrompt
 };
