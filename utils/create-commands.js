@@ -53,7 +53,7 @@ const createCommands = (callback, projectArray = []) => {
   concurrently(projectCommands, {
     prefix: "name",
     killOthers: ["failure", "success"],
-    restartTries: 0
+    restartTries: 3
   }).then(
     () => {
       consoleMessage.success("all commands run successfully.");

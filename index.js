@@ -35,7 +35,7 @@ gpm <command> -h  quick help on <command>
   }
 
   const defaultCmd = ({ path, args }) => {
-    let command = `cd ${path} && ${args.slice(2, args.length).join(" ")}`;
+    let command = `cd ${path} && ${args.slice(0, args.length).join(" ")}`;
 
     return command;
   };
