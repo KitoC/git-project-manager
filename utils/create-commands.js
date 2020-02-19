@@ -2,7 +2,7 @@ const getConfigFile = require("./getConfigFile");
 const consoleMessage = require("./console-message");
 const concurrently = require("concurrently");
 
-const createCommands = (callback, projectArray = []) => {
+const createCommands = (script, projectArray = []) => {
   const { config } = getConfigFile();
   const { colors = {} } = config;
   let filterItems = projectArray;
@@ -28,42 +28,50 @@ const createCommands = (callback, projectArray = []) => {
     return true;
   });
 
-  const projectCommands = projects.map(({ projectName, projectConfig }) => {
-    const { path } = projectConfig;
+  if (script.disableCommandRunner) return script.command({ args });
 
-    let command = callback({ args, ...projectConfig, projectName });
+  Promise.all(
+    projects.map(async ({ projectName, projectConfig }) => {
+      const { path } = projectConfig;
 
-    if (!command) {
-      consoleMessage.warn(
-        "Any CLI commands must be returned from your custom script function as a string. Whatever is executed in your custom script will still be run however."
+      let command = await script.command({
+        args,
+        ...projectConfig,
+        projectName
+      });
+
+      if (!command) {
+        consoleMessage.warn(
+          "Any CLI commands must be returned from your custom script function as a string. Whatever is executed in your custom script will still be run however."
+        );
+      }
+
+      const prefixColor = colors[path] || "white";
+
+      return { command: command || " ", name: projectName, prefixColor };
+    })
+  ).then(projectCommands => {
+    if (!projectCommands.length) {
+      return consoleMessage.error(
+        "It seems that all projects have been disabled... Or maybe you just don't have any... Take a look in the gpm.config.js and enable any projects you are wanting to run commands on."
       );
     }
 
-    const prefixColor = colors[path] || "white";
-
-    return { command: command || " ", name: projectName, prefixColor };
-  });
-
-  if (!projectCommands.length) {
-    return consoleMessage.error(
-      "It seems that all projects have been disabled... Or maybe you just don't have any... Take a look in the gpm.config.js and enable any projects you are wanting to run commands on."
+    concurrently(projectCommands, {
+      prefix: "name",
+      killOthers: ["failure", "success"],
+      restartTries: 3
+    }).then(
+      () => {
+        consoleMessage.success("all commands run successfully.");
+      },
+      () => {
+        consoleMessage.error(
+          "Something went wrong with the script you ran on one of your projects. Please check the logs above to see where it failed."
+        );
+      }
     );
-  }
-
-  concurrently(projectCommands, {
-    prefix: "name",
-    killOthers: ["failure", "success"],
-    restartTries: 3
-  }).then(
-    () => {
-      consoleMessage.success("all commands run successfully.");
-    },
-    () => {
-      consoleMessage.error(
-        "Something went wrong with the script you ran on one of your projects. Please check the logs above to see where it failed."
-      );
-    }
-  );
+  });
 };
 
 module.exports = createCommands;

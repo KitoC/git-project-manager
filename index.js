@@ -29,25 +29,30 @@ const executable = async () => {
 
     let projectArray = [];
 
-    let customScript = projects[firstArg]
+    let script = projects[firstArg]
       ? customScripts[secondArg]
       : customScripts[firstArg];
+
+    if (!script) {
+      script = {
+        multi: true,
+        command: ({ path, args }) => {
+          let command = `cd ${path} && ${args.slice(0, args.length).join(" ")}`;
+
+          return command;
+        }
+      };
+    }
 
     if (projects[firstArg]) {
       projectArray.push(firstArg);
     } else {
-      projectArray = await projectsMultiSelectPrompt();
+      if (!script.disablePrompt) {
+        projectArray = await projectsMultiSelectPrompt(script);
+      }
     }
 
-    const defaultCmd = ({ path, args }) => {
-      let command = `cd ${path} && ${args.slice(0, args.length).join(" ")}`;
-
-      return command;
-    };
-
-    const cmd = customScript ? customScript : defaultCmd;
-
-    createCommands(cmd, projectArray);
+    createCommands(script, projectArray);
   }
 };
 
