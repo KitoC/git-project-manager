@@ -41,4 +41,6 @@ const gpmINIT = () => {
   shell.exec("git init");
 };
 
-module.exports = gpmINIT;
+module.exports = {
+  command: gpmINIT
+};
