@@ -8,7 +8,7 @@ module.exports = {
     } = require("../utils");
     const { projects } = getConfigFile().config;
 
-    const projectsToClone = await projectsMultiSelectPrompt();
+    const projectsToClone = await projectsMultiSelectPrompt({ multi: true });
 
     writeToConfigFile(gpmConfig => {
       Object.keys(projects).forEach(project => {
