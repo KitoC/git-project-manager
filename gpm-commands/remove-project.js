@@ -12,7 +12,7 @@ module.exports = {
         return null;
       }
 
-      const command = ({ path }) => `rm -rf ${path}`;
+      const command = { command: ({ path }) => `rm -rf ${path}` };
 
       createCommands(command, [projectToRemove], true);
 

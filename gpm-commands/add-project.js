@@ -42,8 +42,10 @@ module.exports = {
 
     if (cloneImmediately) {
       createCommands(
-        ({ path, gitUrl }) => {
-          return `git clone ${gitUrl} ${path}`;
+        {
+          command: ({ path, gitUrl }) => {
+            return `git clone ${gitUrl} ${path}`;
+          }
         },
         [gitRepoName]
       );

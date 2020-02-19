@@ -22,8 +22,12 @@ module.exports = {
       return gpmConfig;
     });
 
-    createCommands(({ path, gitUrl }) => {
-      return `git clone ${gitUrl} ${path}`;
-    });
+    const command = {
+      command: ({ path, gitUrl }) => `git clone ${gitUrl} ${path}`
+    };
+
+    createCommands(command);
+
+    return `git clone ${gitUrl} ${path}`;
   }
 };
