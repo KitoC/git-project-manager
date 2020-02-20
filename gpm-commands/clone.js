@@ -1,33 +1,33 @@
-module.exports = {
-  command: async () => {
-    const {
-      createCommands,
-      writeToConfigFile,
-      projectsMultiSelectPrompt,
-      getConfigFile
-    } = require("../utils");
-    const { projects } = getConfigFile().config;
+module.exports = async () => {
+  const {
+    createCommands,
+    writeToConfigFile,
+    projectsMultiSelectPrompt,
+    getConfigFile
+  } = require("../utils");
+  const { projects, options } = getConfigFile().config;
 
-    const projectsToClone = await projectsMultiSelectPrompt({ multi: true });
+  const projectsToClone = await projectsMultiSelectPrompt({ multi: true });
 
-    writeToConfigFile(gpmConfig => {
-      Object.keys(projects).forEach(project => {
-        if (projectsToClone.includes(project)) {
-          gpmConfig.projects[project].enabled = true;
-        } else {
-          gpmConfig.projects[project].enabled = false;
-        }
-      });
-
-      return gpmConfig;
+  writeToConfigFile(gpmConfig => {
+    Object.keys(projects).forEach(project => {
+      if (projectsToClone.includes(project)) {
+        gpmConfig.projects[project].enabled = true;
+      } else {
+        gpmConfig.projects[project].enabled = false;
+      }
     });
 
-    const command = {
-      command: ({ path, gitUrl }) => `git clone ${gitUrl} ${path}`
-    };
+    return gpmConfig;
+  });
 
-    createCommands(command);
+  const command = ({ path, gitUrl }) => {
+    if (options.gitSubmodules) {
+      return `git submodule add ${gitUrl} ${path} && git submodule update --init --recursive`;
+    } else {
+      return `git clone ${gitUrl} ${path}`;
+    }
+  };
 
-    return `git clone ${gitUrl} ${path}`;
-  }
+  createCommands(command);
 };

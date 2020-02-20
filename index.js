@@ -23,7 +23,7 @@ const executable = async () => {
   gpm <command> -h  quick help on <command>
   `);
   } else if (gpmCommands[firstArg]) {
-    gpmCommands[firstArg].command();
+    gpmCommands[firstArg]();
   } else {
     const { projects } = getConfigFile().config;
 

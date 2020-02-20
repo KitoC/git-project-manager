@@ -1,12 +1,20 @@
 const getConfigFile = require("./getConfigFile");
 const consoleMessage = require("./console-message");
 const concurrently = require("concurrently");
+const isFunction = require("lodash/isFunction");
 
 const createCommands = (script, projectArray = []) => {
   try {
     const { config } = getConfigFile();
     const { colors = {} } = config;
     let filterItems = projectArray;
+    let COMMAND;
+
+    if (isFunction(script)) {
+      COMMAND = script;
+    } else {
+      COMMAND = script.command;
+    }
 
     const onlyOption = process.argv.find(arg => arg.includes("--only="));
 
@@ -29,14 +37,15 @@ const createCommands = (script, projectArray = []) => {
       return true;
     });
 
-    if (script.disableCommandRunner)
-      return script.command({ args, logger: consoleMessage });
+    if (!script.multi && script.disablePrompt) {
+      return COMMAND({ args, logger: consoleMessage });
+    }
 
     Promise.all(
       projects.map(async ({ projectName, projectConfig }) => {
         const { path } = projectConfig;
 
-        let command = await script.command({
+        let command = await COMMAND({
           args,
           ...projectConfig,
           projectName,

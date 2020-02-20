@@ -1,26 +1,24 @@
 const { writeGitIgnore, createCommands } = require("../utils");
 
-module.exports = {
-  command: () => {
-    const { consoleMessage, writeToConfigFile } = require("../utils");
+module.exports = () => {
+  const { consoleMessage, writeToConfigFile } = require("../utils");
 
-    const projectToRemove = process.argv.pop();
+  const projectToRemove = process.argv.pop();
 
-    writeToConfigFile(gpmConfig => {
-      if (!gpmConfig.projects[projectToRemove]) {
-        consoleMessage.warn("Project already removed.");
-        return null;
-      }
+  writeToConfigFile(gpmConfig => {
+    if (!gpmConfig.projects[projectToRemove]) {
+      consoleMessage.warn("Project already removed.");
+      return null;
+    }
 
-      const command = { command: ({ path }) => `rm -rf ${path}` };
+    const command = ({ path }) => `rm -rf ${path}`;
 
-      createCommands(command, [projectToRemove], true);
+    createCommands(command, [projectToRemove], true);
 
-      delete gpmConfig.projects[projectToRemove];
+    delete gpmConfig.projects[projectToRemove];
 
-      writeGitIgnore(gpmConfig);
+    writeGitIgnore(gpmConfig);
 
-      return gpmConfig;
-    });
-  }
+    return gpmConfig;
+  });
 };
