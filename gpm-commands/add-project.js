@@ -32,13 +32,14 @@ module.exports = () => {
     }
 
     const path = `${targetPath ? `${targetPath}/` : ""}${gitRepoName}`;
+
     gpmConfig.projects[gitRepoName] = {
       gitUrl,
       path,
       enabled: true
     };
 
-    writeGitIgnore(gpmConfig);
+    if (!options.gitSubmodules) writeGitIgnore(gpmConfig);
 
     return gpmConfig;
   });

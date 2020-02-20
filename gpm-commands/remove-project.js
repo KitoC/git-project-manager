@@ -1,7 +1,13 @@
-const { writeGitIgnore, createCommands } = require("../utils");
+const {
+  writeGitIgnore,
+  createCommands,
+  consoleMessage,
+  writeToConfigFile,
+  getConfigFile
+} = require("../utils");
 
 module.exports = () => {
-  const { consoleMessage, writeToConfigFile } = require("../utils");
+  const { options = {} } = getConfigFile().config;
 
   const projectToRemove = process.argv.pop();
 
@@ -17,7 +23,7 @@ module.exports = () => {
 
     delete gpmConfig.projects[projectToRemove];
 
-    writeGitIgnore(gpmConfig);
+    if (!options.gitSubmodules) writeGitIgnore(gpmConfig);
 
     return gpmConfig;
   });

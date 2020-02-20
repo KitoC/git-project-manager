@@ -1,11 +1,12 @@
+const {
+  createCommands,
+  writeToConfigFile,
+  projectsMultiSelectPrompt,
+  getConfigFile
+} = require("../utils");
+
 module.exports = async () => {
-  const {
-    createCommands,
-    writeToConfigFile,
-    projectsMultiSelectPrompt,
-    getConfigFile
-  } = require("../utils");
-  const { projects, options } = getConfigFile().config;
+  const { projects, options = {} } = getConfigFile().config;
 
   const projectsToClone = await projectsMultiSelectPrompt({ multi: true });
 
