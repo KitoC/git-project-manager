@@ -2,7 +2,7 @@ const {
   createCommands,
   writeToConfigFile,
   projectsMultiSelectPrompt,
-  getConfigFile
+  getConfigFile,
 } = require("../utils");
 
 module.exports = async () => {
@@ -10,8 +10,8 @@ module.exports = async () => {
 
   const projectsToClone = await projectsMultiSelectPrompt({ multi: true });
 
-  writeToConfigFile(gpmConfig => {
-    Object.keys(projects).forEach(project => {
+  writeToConfigFile((gpmConfig) => {
+    Object.keys(projects).forEach((project) => {
       if (projectsToClone.includes(project)) {
         gpmConfig.projects[project].enabled = true;
       } else {
@@ -26,7 +26,7 @@ module.exports = async () => {
     if (options.gitSubmodules) {
       return `git submodule add ${gitUrl} ${path} && git submodule update --init --recursive`;
     } else {
-      return `git clone ${gitUrl} ${path}`;
+      return `git clone --recurse-submodules -j8 ${gitUrl} ${path}`;
     }
   };
 
