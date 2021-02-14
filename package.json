@@ -1,6 +1,6 @@
 {
   "name": "git-project-manager",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A CLI tool for managing multiple git projects in one parent repo.",
   "main": "index.js",
   "bin": {
