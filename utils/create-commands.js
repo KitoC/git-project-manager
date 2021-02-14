@@ -16,7 +16,7 @@ const createCommands = (script, projectArray = []) => {
       COMMAND = script.command;
     }
 
-    const onlyOption = process.argv.find(arg => arg.includes("--only="));
+    const onlyOption = process.argv.find((arg) => arg.includes("--only="));
 
     if (onlyOption) {
       filterItems = onlyOption.replace("--only=", "").split(",");
@@ -30,7 +30,7 @@ const createCommands = (script, projectArray = []) => {
         return projectConfig.enabled;
       });
 
-    const [first, second, ...args] = process.argv.filter(arg => {
+    const [first, second, ...args] = process.argv.filter((arg) => {
       if (arg.includes("--only")) return false;
       if (filterItems.includes(arg)) return false;
 
@@ -49,7 +49,7 @@ const createCommands = (script, projectArray = []) => {
           args,
           ...projectConfig,
           projectName,
-          logger: consoleMessage
+          logger: consoleMessage,
         });
 
         const prefixColor = colors[path] || "white";
@@ -57,7 +57,7 @@ const createCommands = (script, projectArray = []) => {
         return { command: command || " ", name: projectName, prefixColor };
       })
     )
-      .then(projectCommands => {
+      .then((projectCommands) => {
         if (!projectCommands.length) {
           return consoleMessage.error(
             "It seems that all projects have been disabled... Or maybe you just don't have any... Take a look in the gpm.config.js and enable any projects you are wanting to run commands on."
@@ -66,8 +66,7 @@ const createCommands = (script, projectArray = []) => {
 
         concurrently(projectCommands, {
           prefix: "name",
-          killOthers: ["failure", "success"],
-          restartTries: 3
+          restartTries: 3,
         }).then(
           () => {
             consoleMessage.success("all commands run successfully.");
@@ -79,7 +78,7 @@ const createCommands = (script, projectArray = []) => {
           }
         );
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) consoleMessage.error(error);
       });
   } catch (error) {
